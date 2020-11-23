@@ -1,15 +1,29 @@
 import React, { useState } from 'react';
 import { Menu } from 'antd';
-import { AppstoreOutlined,LoginOutlined, UserAddOutlined, SettingOutlined } from '@ant-design/icons';
+import { AppstoreOutlined, UserAddOutlined, SettingOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import  { Link } from 'react-router-dom';
+import firebase from 'firebase';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom'; 
 
 const { SubMenu, Item } = Menu;
 
-const Header = () => {
+const Header = () => {   
+    const history = useHistory();
+    const dispatch = useDispatch();
     const [current, setCurrent] = useState('home');
 
     const handleClick = (e) => {
         setCurrent(e.key);
+    }
+
+    const logout = (e) =>{
+        firebase.auth().signOut();
+        dispatch({
+            type:"LOGOUT",
+            payload:null
+        });
+        history.push('/login'); 
     }
 
     return (
@@ -24,7 +38,7 @@ const Header = () => {
                   Register
                 </Link>
             </Item>
-            <Item key="login" icon={<LoginOutlined />} className="float-right">
+            <Item key="login" icon={<UserOutlined />} className="float-right">
                 <Link to="/login">
                   Login
                 </Link>
@@ -32,6 +46,7 @@ const Header = () => {
             <SubMenu key="SubMenu" icon={<SettingOutlined />} title="Username">
                 <Item key="setting:1">Option 1</Item>
                 <Item key="setting:2">Option 2</Item>
+                <Item key="logout" icon={<LogoutOutlined/>} onClick={logout}>Logout</Item>
             </SubMenu>
         </Menu>
     )

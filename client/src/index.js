@@ -6,11 +6,21 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import 'bootstrap-material-design/dist/css/bootstrap-material-design.min.css';
 import 'antd/dist/antd.css';
+import { createStore,  } from 'redux';
+import { Provider} from 'react-redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import rootReducer from './reducers/index';
+
+//store
+
+const store = createStore(rootReducer, composeWithDevTools());
 
 ReactDOM.render(
+  <Provider store={store}>
     <BrowserRouter>    
         <App />
-    </BrowserRouter>,
+    </BrowserRouter>
+  </Provider>,
   document.getElementById('root')
 );
 
