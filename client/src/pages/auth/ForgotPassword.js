@@ -1,13 +1,19 @@
 import { useState, useEffect } from 'react';
 import { auth } from './../../firebase';
 import { toast } from 'react-toastify';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-const ForgotPassword = () => {
+const ForgotPassword = ({history}) => {
     const [ email, setEmail ] = useState('');
     const [ loading, setLoading ] = useState(false);
 
-    const dispath = useDispatch();
+    const { user } = useSelector(state=>({...state}));
+
+    useEffect(()=>{
+        if(user.login){
+            return history.push('/');
+        }
+    })
 
     const handleSubmit = async (e) =>{
         e.preventDefault();

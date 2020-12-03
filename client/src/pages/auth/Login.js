@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { auth, googleAuthProvider } from './../../firebase';
 import { toast } from 'react-toastify';
 import { MailOutlined, GoogleCircleFilled } from '@ant-design/icons'
 import { Button } from 'antd';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { createOrUpdateUser } from './../../functions/auth';
 
 
 const Login = ({history}) =>{
@@ -13,6 +14,14 @@ const Login = ({history}) =>{
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
 
+    const { user } = useSelector(state=>({...state}));
+
+    useEffect(()=>{
+        if(user.login){
+            return history.push('/');
+        }
+    })
+
     const handleSubmit = async (e) =>{
         e.preventDefault();
         setLoading(true)
@@ -20,13 +29,21 @@ const Login = ({history}) =>{
             const result=  await auth.signInWithEmailAndPassword(email, password);
             const { user } = result;
             const idTokenResult = await user.getIdTokenResult();
-            dispatch({
-                type:"LOGGED_IN_USER",
-                payload:{
-                    email:user.email,
-                    password:idTokenResult.token,
-                }
-            })
+
+            createOrUpdateUser(idTokenResult.token).then(res=>{                
+                dispatch({
+                    type:"LOGGED_IN_USER",
+                    payload:{
+                        _id:res.data._id,
+                        name:res.data.name,
+                        email:res.data.email,
+                        token:idTokenResult.token,
+                        role:res.data.role
+                    }
+                })
+            }).catch(error=>{
+                toast.error(error);
+            });            
             history.push('/');
         }catch(error){
             toast.error(error.message);
@@ -64,14 +81,20 @@ const Login = ({history}) =>{
         auth.signInWithPopup(googleAuthProvider).then(async (result)=>{
             const { user } = result;
             const idTokenResult = await user.getIdTokenResult();
-            console.log(idTokenResult);
-            dispatch({
-                type:"LOGGED_IN_USER",
-                payload:{
-                    email:user.email,
-                    token:idTokenResult.token
-                }
-            })
+            createOrUpdateUser(idTokenResult.token).then(res=>{                
+                dispatch({
+                    type:"LOGGED_IN_USER",
+                    payload:{
+                        _id:res.data._id,
+                        name:res.data.name,
+                        email:res.data.email,
+                        token:idTokenResult.token,
+                        role:res.data.role
+                    }
+                })
+            }).catch(error=>{
+                toast.error(error);
+            });     
             history.push('/');
         }).catch(e=>toast.error(e.message));
     }

@@ -1,10 +1,22 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { auth } from './../../firebase';
 import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { createOrUpdateUser } from './../../functions/auth';
+
 
 const RegisterComplete = ({history}) =>{
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const dispatch = useDispatch();
+
+    const { user } = useSelector(state=>({...state}));
+
+    useEffect(()=>{
+        if(user.login){
+            return history.push('/');
+        }
+    })
 
 
 
@@ -33,6 +45,21 @@ const RegisterComplete = ({history}) =>{
                 user.updatePassword(password).then(()=>{
                     user.getIdTokenResult().then(token=>{
                         window.localStorage.setItem('token', token);
+
+                        createOrUpdateUser(token.token).then(res=>{                
+                            dispatch({
+                                type:"LOGGED_IN_USER",
+                                payload:{
+                                    _id:res.data._id,
+                                    name:res.data.name,
+                                    email:res.data.email,
+                                    token:token.token,
+                                    role:res.data.role
+                                }
+                            })
+                        }).catch(error=>{
+                            toast.error(error);
+                        });       
 
                         history.push('/');
                     });
