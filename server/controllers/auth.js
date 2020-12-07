@@ -13,9 +13,8 @@ exports.createOrUpdateUser = async (req, res) =>{
 }
 
 exports.currentUser = async = (req, res) =>{
-    User.find({email:req.headers.user.email}).exec((error, doc)=>{
-        if(error) res.status(400).json(error);
-
-        res.json(doc);        
+    User.find({email:req.user.email}).exec((error, doc)=>{
+        if(error) return res.status(400).json(error);
+        res.json(doc[0]);        
     })
 }

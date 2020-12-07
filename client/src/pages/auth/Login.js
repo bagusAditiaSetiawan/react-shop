@@ -8,11 +8,23 @@ import { Link } from 'react-router-dom';
 import { createOrUpdateUser } from './../../functions/auth';
 
 
+
+
+
+
 const Login = ({history}) =>{
     const dispatch = useDispatch();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
+
+    const roleBasedRedirect = (res) => {
+        if(res.data.role === 'admin'){
+           return  history.push('/admin/dashboard');
+        }else if(res.data.role === 'subcriber'){
+           return  history.push('/user/history');
+        }
+    }
 
     const { user } = useSelector(state=>({...state}));
 
@@ -40,11 +52,11 @@ const Login = ({history}) =>{
                         token:idTokenResult.token,
                         role:res.data.role
                     }
-                })
+                });                
+                roleBasedRedirect(res);
             }).catch(error=>{
                 toast.error(error);
             });            
-            history.push('/');
         }catch(error){
             toast.error(error.message);
             setLoading(false);
@@ -92,10 +104,10 @@ const Login = ({history}) =>{
                         role:res.data.role
                     }
                 })
+                roleBasedRedirect(res);
             }).catch(error=>{
                 toast.error(error);
             });     
-            history.push('/');
         }).catch(e=>toast.error(e.message));
     }
 
