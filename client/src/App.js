@@ -15,6 +15,8 @@ import RegisterComplete from './pages/auth/RegisterComplete';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import UserRoute from './components/routes/UserRoute';
 import UserHistory from './pages/user/History';
+import UserPassword from './pages/user/Password';
+import UserWistlist from './pages/user/Wistlist';
 
 
 const App = () => {
@@ -57,6 +59,8 @@ const App = () => {
           <Route path="/register/complete" exact component={RegisterComplete} />
           <Route path="/forgot/password" exact component={ForgotPassword} />
           <UserRoute path="/user/history" exact component={UserHistory} />
+          <UserRoute path="/user/password" exact component={UserPassword} />
+          <UserRoute path="/user/wistlist" exact component={UserWistlist} />
         </Switch>
     </>
   );

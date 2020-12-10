@@ -1,6 +1,6 @@
 import React from 'react';
 import UserNav from './../../components/nav/UserNav'; 
-const History = () => {
+const Wistlist = () => {
     return (
         <div className="container-fluid">
             <div className="row">
@@ -8,11 +8,11 @@ const History = () => {
                     <UserNav/> 
                 </div>
                 <div className="col">
-                    user pagehisttury
+                    user page Wistlist
                 </div>
             </div>
         </div>
     )
 }
 
-export default History;
+export default Wistlist;
