@@ -13,7 +13,7 @@ const LoadingRedirect = () => {
         count === 0 && history.push('/login');
 
         return () => clearInterval(countInterval);
-    })
+    },[history, count])
 
     return (
         <div className="text-center p-5">

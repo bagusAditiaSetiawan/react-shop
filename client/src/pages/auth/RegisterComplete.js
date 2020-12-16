@@ -16,7 +16,7 @@ const RegisterComplete = ({history}) =>{
         if(user.login){
             return history.push('/');
         }
-    })
+    },[user, history])
 
 
 
