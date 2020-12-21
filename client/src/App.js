@@ -20,8 +20,13 @@ import UserPassword from './pages/user/Password';
 import UserWistlist from './pages/user/Wistlist';
 
 import AdminDashboard from './pages/admin/AdminDashboard';
+
 import CategoryList from './pages/admin/category/CategoryList';
 import CategoryUpdate from './pages/admin/category/CategoryUpdate';
+
+
+import SubCategoryList from './pages/admin/subcategory/SubCategoryList';
+import SubCategoryUpdate from './pages/admin/subcategory/SubCategoryUpdate';
 
 import Header from './components/nav/Header';
 import UserRoute from './components/routes/UserRoute';
@@ -69,8 +74,13 @@ const App = () => {
           <Route path="/forgot/password" exact component={ForgotPassword} />
 
           <AdminRoute  path="/admin/dashboard" exact component={AdminDashboard} />
+
           <AdminRoute  path="/admin/categories" exact component={CategoryList} />
           <AdminRoute  path="/admin/categories/edit/:slug" exact component={CategoryUpdate} />
+
+          
+          <AdminRoute  path="/admin/categories-sub" exact component={SubCategoryList} />
+          <AdminRoute  path="/admin/categories-sub/edit/:slug" exact component={SubCategoryUpdate} />
 
           <UserRoute path="/user/history" exact component={UserHistory} />
           <UserRoute path="/user/password" exact component={UserPassword} />
