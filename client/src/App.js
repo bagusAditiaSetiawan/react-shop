@@ -28,6 +28,8 @@ import CategoryUpdate from './pages/admin/category/CategoryUpdate';
 import SubCategoryList from './pages/admin/subcategory/SubCategoryList';
 import SubCategoryUpdate from './pages/admin/subcategory/SubCategoryUpdate';
 
+import ProductCreate from './pages/product/ProductCreate';
+
 import Header from './components/nav/Header';
 import UserRoute from './components/routes/UserRoute';
 import AdminRoute from './components/routes/AdminRoute';
@@ -81,6 +83,9 @@ const App = () => {
           
           <AdminRoute  path="/admin/categories-sub" exact component={SubCategoryList} />
           <AdminRoute  path="/admin/categories-sub/edit/:slug" exact component={SubCategoryUpdate} />
+
+          <AdminRoute  path="/admin/products" exact component={ProductCreate} />
+
 
           <UserRoute path="/user/history" exact component={UserHistory} />
           <UserRoute path="/user/password" exact component={UserPassword} />
