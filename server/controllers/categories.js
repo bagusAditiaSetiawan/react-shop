@@ -1,4 +1,5 @@
 const Categories = require('./../models/categories');
+const SubCategories = require('./../models/subcategories');
 const slugify = require('slugify');
 
 exports.create = async (req, res) =>{
@@ -68,4 +69,11 @@ exports.remove = async (req, res) =>{
             error: "Remove failed"
         })
     }
+}
+
+exports.getSubCategories = async (req, res)=>{
+    const getSubCategories = await SubCategories.find({parent:req.params._id});
+    if(!getSubCategories) return res.status(400).send({error:"Sub Category Not Found"});
+
+    res.json(getSubCategories);
 }

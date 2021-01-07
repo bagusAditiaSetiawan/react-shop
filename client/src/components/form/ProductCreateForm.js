@@ -1,6 +1,6 @@
 
 
-const ProductCreateForm = ({handleSubmit, handleChanged, values}) => {
+const ProductCreateForm = ({handleSubmit, handleChanged, handleCategoryChanged, values}) => {
     const { title, description, price, category, sub_category, quantity, images, color, brand, colors, brands, shipping, categories, subcategories } = values;
  
     return (
@@ -49,10 +49,19 @@ const ProductCreateForm = ({handleSubmit, handleChanged, values}) => {
         </div>
         <div className="form-group">
             <label>Category</label>
-            <select className="form-control" name="category" value={category} onChange={handleChanged}>
+            <select className="form-control" name="category" value={category} onChange={handleCategoryChanged}>
                 <option value="" key="color-0">Please Select Category</option>                              
                 { categories.map((data, index)=>(
                     <option value={data._id} key={`category-${index}`}>{data.name}</option>
+                )) }
+            </select>
+        </div>
+        <div className="form-group">
+            <label>Sub Category</label>
+            <select className="form-control" name="sub_category" value={sub_category} onChange={handleChanged}>
+                <option value="" key="color-0">Please Select Sub Category</option>                              
+                { subcategories.map((data, index)=>(
+                    <option value={data._id} key={`subcategory-${index}`}>{data.name}</option>
                 )) }
             </select>
         </div>

@@ -19,7 +19,7 @@ const SubCategoryUpdate  = ({history}) =>{
     useEffect(()=>{
         loadCategories();
         loadCategorySub();
-    },[]);
+    });
 
 
     const loadCategories = () => {

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { createProduct } from '../../functions/products';
-import { listCategory } from './../../functions/category';
+import { listCategory, subCategories } from './../../functions/category';
 import ProductCreateForm from './../../components/form/ProductCreateForm';
 
 const initialState = {
@@ -35,6 +35,7 @@ const ProductCreate = () =>{
 
     const loadCategories = () => {
         listCategory(user.login.token).then(res=>setValues({...values, categories:res.data}));
+
     }
 
     const handleSubmit = (e) =>{
@@ -51,13 +52,20 @@ const ProductCreate = () =>{
         setValues({...values, [e.target.name]:e.target.value})
     }
 
+    const handleCategoryChanged = (e)=>{
+        setValues({...values, category:e.target.value})
+        subCategories(user.login.token, e.target.value).then((res)=>setValues({...values, subcategories:res.data}))
+  
+    }
+
+    console.log(values.category)
     return (
         <div className="container-fluid">
             <div className="row">
                 <div className="col-2"><AdminNav/></div>
                 <div className="col-10">
                    <h4>Product Create</h4>
-                   <ProductCreateForm handleSubmit={handleSubmit} handleChanged={handleChanged} values={values} />
+                   <ProductCreateForm handleCategoryChanged={handleCategoryChanged} handleSubmit={handleSubmit} handleChanged={handleChanged} values={values} />
                 </div>
             </div>
         </div>

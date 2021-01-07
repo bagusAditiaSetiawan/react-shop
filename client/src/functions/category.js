@@ -42,3 +42,11 @@ export const updateCategory = async (authToken, slug, { name }) =>{
         }
     });
 }
+
+export const subCategories = async (authToken, idCategory) => {
+    return await axios.get(`${process.env.REACT_APP_API}/categories/subs/${idCategory}`, {
+        headers:{
+            authorization:`barrier ${authToken}`
+        }
+    });
+}
